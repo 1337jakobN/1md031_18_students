@@ -1,107 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>DELI-VERY</title>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-    </head>
-    <body>
-        <main>
-            <header>
-                <img src="img/header.jpg">
-                <h1>Ape Burger Joint</h1>
-            </header>
-            
-            <section id="selection" class="selection">
-                <h2>Select Burger</h2>
+<head>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <td><h3>Vanilla Burger</h3></td>
-                            <td><h3>Choclate Burger</h3></td>
-                            <td><h3>Salty Burger</h3></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="img/burger.jpg"></td>
-                            <td><img src="img/burger.jpg"></td>
-                            <td><img src="img/burger.jpg"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <ul>
-                                    <li>Spicy</li>
-                                    <li>Bright</li>
-                                    <li>Greasy</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <li>Dark</li>
-                                    <li>Firey</li>
-                                    <li>Light</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <li>Hot</li>
-                                    <li>Cold</li>
-                                    <li>Balanced</li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            
-            </section>
-           
-            <section id="delivery" class="delivery">
-                <h2>Customer Information</h2>
-                <form>
-                    <p>
-                        <label for="fullname">Full name</label><br />
-                        <input type="text" id="fullname" name="fn" required="required" placeholder="Full name">
-                    </p>
-                    <p>
-                        <label for="email">Email</label><br />
-                        <input type="email" id="email" name="em" required="required" placeholder="Email">
-                    </p>
-                    <p>
-                        <label for="street">Street</label><br />
-                        <input type="text" id="street" name="st" required="required" placeholder="Street">
-                    </p>
-                    <p>
-                        <label for="house">House</label><br />
-                        <input type="text" id="house" name="ho" required="required" placeholder="House">
-                    </p>
-                    <p>
-                        <label for="payment">Payment</label><br>
-                        <select id="payment" name="pay">
-                            <option>Credit card</option>
-                            <option>Swish</option>
-                        </select>
-                    </p>
-                    Gender
-                    <p>
-                        <input type="radio" id="male" name="ge" required="required" placeholder="Male">
-                        <label for="male">Male</label><br />
-                        <input type="radio" id="female" name="ge" required="required" placeholder="Female">
-                        <label for="female">Female</label><br />
-                        <input type="radio" id="nogender" name="ge" required="required" placeholder="None">
-                        <label for="nogender">Dont wanan say</label><br />
-                    </p>
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="js/deli-very.js" defer></script>
 
-                </form>
-            </section>
-            
-            <button id="sendbutton" type="submit"><img src="img/send.png">Send order</button>
-            
-        </main>
-        <footer>
-            <hr>
-            &copy; 2018 Ape Productions
-        </footer>
-    </body>
+  <script src="js/js_script.js" defer></script>
+  <script src="https://vuejs.org/js/vue.js" defer></script>
+  <script src="js/vue_script.js" defer></script>
+
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <title>Burger Me Up™</title>
+  <meta charset="utf-8">
+
+  <!--<link rel="stylesheet" href="css/deli-very.css">-->
+  <!--<script src="/vue/vue.js" defer></script>-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <!-- <script type="text/javascript" src="menu.js"></script> -->
+
+
+
+
+</head>
+
+  <body>
+    <main>
+      <div id="vuecontainer">
+      <section class="mainheader">
+        <h1 id="headerone">Welcome to Burger Me Up™</h1>
+        <img id="headerimage" src="https://www.barshelvesusa.com/wp-content/uploads/2015/12/IMG_0343r.jpg">
+      </section>
+      <section id="burgerselection">
+        <h2>Select burger</h2>
+        <p>Here you may select what burger you want to order.</p>
+        <!-- här är grid layout grid som redigeras i vue -->
+        <div id="burgerselectionwrapper">
+          <ul class="ingredientlist" v-for="item in menu">
+            <li>{{item.productName}}</li>
+            <li><img :src="item.img" width="200px" height="200px"></li>
+            <li>{{item.calories}}</li>
+            <li>{{item.vegan}}</li>
+            <li v-if="item.gluten">Contains gluten</li>
+            <li v-if="item.lactose">Contains lactose</li>
+            <input type="checkbox" name="checkbox" :value="item.productName">
+            <label for="checkbox">Add to order </label>
+          </ul>
+        </div>
+      </section>
+
+      <section id="customerinformation">
+        <h2>Customer Information</h2>
+        <p>Please provide your information, such as delivery address.</p>
+        <form>
+          <p>
+            <label for"fullname">Full name (first and last)</label><br>
+            <input type="text" id="fullname" name="fn" required="required" placeholder="eg: Ham Burger">
+          </p>
+          <p>
+            <label for"email">Email</label><br>
+            <input type="text" id="email" name="em" required="required" placeholder="eg: ham@burger.com">
+          </p>
+          <!-- <p>
+          <label for"streetname">Street name</label><br>
+          <input type="text" id="streetname" name="sn" required="required" placeholder="eg: Burger Avenue">
+        </p>
+        <p>
+        <label for"housenumber">House number</label><br>
+        <input type="number" id="housenumber" name="hn" required="required" placeholder="eg: 1337">
+      </p> -->
+
+      <p>
+        <label for="paymentmethod">Choose your payment method</label><br>
+        <select id="paymentmethod" name="pm">
+          <option selected="selected">Swish</option>
+          <option>Credit Card</option>
+          <option>Debit Card</option>
+          <option>Klarna direkt</option>
+          <option>Faktura</option>
+        </select>
+      </p>
+
+      <p>Please select your gender</p>
+
+      <input type="radio" value="female" name="gb">
+      <label for="female">Female</label><br>
+
+      <input type="radio" value="male" name="gb">
+      <label for="male">Male</label><br>
+
+      <input type="radio" value="dnwtp" name="gb" checked="checked">
+      <label for="dnwtp">Do not wish to provide</label><br>
+
+    </form>
+
+
+
+    <h1> Click in the map! </h1>
+    <a href="/dispatcher" target="_blank">Open dispatcher in new window</a>.
+    <div class="view-box">
+      <div id="dots" v-on:click="displayOrder">
+        <div
+        v-for="(order, key) in newOrder"
+        v-bind:style="{ left: newOrder.details.x + 'px', top: newOrder.details.y + 'px'}">
+        T
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+
+<button v-on:click="buttonClicked()" id="submitbutton" type="submit"><img width=50 height=25 src="http://fc01.deviantart.net/fs71/f/2010/108/c/5/Green_Submit_Button_by_rukiaxichigo15.jpg">Submit me up!</button>
+<div v-if="click">
+  <h3>Your order information: </h3>
+  <ul>
+
+    <li>Full name: {{customerArray[0]}}</li>
+    <li>Email address: {{customerArray[1]}}</li>
+    <!-- <li>Streetname: {{customerArray[2]}}</li>
+    <li>House number: {{customerArray[3]}}</li> -->
+    <li>Your selected method of payment: {{customerArray[4]}}</li>
+    <li>Your selected gender: {{customerArray[5]}}</li>
+    <li>{{"Your selected burger(s): " + checkedBurger}}</li>
+
+
+  </ul>
+
+</div>
+</div>
+</main>
+<hr>
+<footer> &copy; Burger Me Up™, brought to you by Nikamo Inc. </footer>
+</body>
+
 </html>

@@ -12,12 +12,12 @@
 <body>
   <div id="orders">
     <div id="orderList">
-      <div v-for="(order, key) in orders">
+      <div v-for="(order, key) in newOrder"> //stog "(order, key) in orders" innan
         #{{ key }}: {{ order.orderItems.join(", ") }}
       </div>
     </div>
     <div id="dots">
-        <div v-for="(order, key) in orders" v-bind:style="{ left: order.details.x + 'px', top: order.details.y + 'px'}">
+        <div v-for="(order, key) in newOrder" v-bind:style="{ left: order.details.x + 'px', top: order.details.y + 'px'}">
           {{ key }}
         </div>
     </div>
