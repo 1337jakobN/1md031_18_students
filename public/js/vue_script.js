@@ -1,8 +1,4 @@
 
-// console.log( menu_item1.burgerInformation() );
-// console.log( menu_item2.burgerInformation() );
-// console.log( menu_item3.burgerInformation() );
-
 function MenuItem(name, img, cal, gluten, lactose, vegan) {
     this.productName = name;
     this.img = img;
@@ -36,14 +32,11 @@ function getCustomerInformation() {
       // this.customerArray.push({text: "gender: ", data: radio[i].value});
       // this.infoArray.push(radio[i].value);
       gender = gender[i].value;
-
       break;
     }
   }
 
-  var customerArray = [fullname, email, //streetname, housenumber,
-    paymentmethod,
-    gender];
+  var customerArray = [fullname, email, paymentmethod, gender];
   return customerArray;
 }
 
@@ -58,22 +51,20 @@ function getBurgerInformation() {
   return selectedBurgers;
 }
 
+var lastOrder = 0;
 
 
 
 var vm = new Vue({
   el:'#vuecontainer',
   data: {
-		// burgers:
-  	//    [{name: "Yikes", stock:  0},
-    //    {name: "Yeet", stock: 500},
-    //    {name: "Skrrt", stock: 600}],
     menu: [menu_item1, menu_item2, menu_item3, menu_item4, menu_item5],
     customerArray: [],
     checkedBurger: [],
     click: false,
+    //lastOrder: 0,
     orders: {},
-    newOrder: {},
+  //  newOrder: {},
     //totalOrder: []
   },
   // created: function () {
@@ -97,27 +88,35 @@ var vm = new Vue({
       // this.customerArray.push({text: "Selected payment method: ", data: paymentmethod});
     },
     getNext: function () {
-       var lastOrder = Object.keys(this.orders).reduce( function (last, next) {
-         return Math.max(last, next);
-       }, 0);
-       return lastOrder + 1;
+       lastOrder = lastOrder + 1;
+       return lastOrder;
+       // Object.keys(this.orders).reduce( function (last, next) {
+       //   return Math.max(last, next);
+       // }, 0);
+       // return lastOrder + 1;
      },
      addOrder: function (event) {
        console.log("hej");
-       socket.emit("addOrder", { //orderId: this.getNext(),
-                                details: this.newOrder,
-                                 // details: { x: event.clientX-10 - event.currentTarget.getBoundingClientRect().left,
-                                 //            y: event.clientY-10 - event.currentTarget.getBoundingClientRect().top},
-                                 orderItems: this.checkedBurger,
-                                 orderInformation: this.customerArray,
-                               });
+       socket.emit("addOrder",
+       {orderId: this.getNext(),
+        details: this.orders.details,
+        // details: { x: event.clientX-10 - event.currentTarget.getBoundingClientRect().left,
+        //            y: event.clientY-10 - event.currentTarget.getBoundingClientRect().top},
+        orderItems: this.checkedBurger,
+        orderInformation: this.customerArray,
+    });
+
      },
      displayOrder: function(event) {
-
        console.log(event);
-       this.newOrder = ({details: { x: event.clientX-10 - event.currentTarget.getBoundingClientRect().left,
-                      y: event.clientY-10 - event.currentTarget.getBoundingClientRect().top},
-                      })
+       console.log("tjennanaaaaa");
+       socket.emit("displayOrder",
+       this.orders =
+        {details: {
+          x: event.clientX-10 - event.currentTarget.getBoundingClientRect().left,
+          y: event.clientY-10 - event.currentTarget.getBoundingClientRect().top},
+          }
+        );
       }
      }
    })

@@ -8,7 +8,7 @@ h3 {
 }
 .mainheader {
   margin: 15px;
-  border: 2px dashed rgb(0,0,0);
+  border: 2px solid rgb(0,0,0);
   height: 250px;
   overflow: hidden;
 }
@@ -32,7 +32,7 @@ h3 {
 }
 
 .box {
- border: dotted 2px rgb(30,30,30);
+ border: solid 2px rgb(30,30,30);
  align: center;
 }
 
@@ -63,14 +63,14 @@ h3 {
 
 #burgerselection {
   margin: 15px;
-  border: 2px dashed rgb(0,150,200);
+  border: 2px solid rgb(0,150,200);
 }
 
 #customerinformation {
   background-color: black;
   color: rgb(255,255,255);
   margin: 15px;
-  border: 2px dashed rgb(255,255,255);
+  border: 2px solid rgb(255,255,255);
 }
 
 section {
